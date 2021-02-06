@@ -16,5 +16,11 @@ app.get('/', (req, res) =>{
   });
 })
 
+app.post('/register', (req, res) => {
+    res.send({
+        message : `Registrados ${req.body.email}`
+    });
+});
+
 app.listen(process.env.PORT || 3000);
 
