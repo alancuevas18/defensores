@@ -1,8 +1,9 @@
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
+const {sequelize} = require('./models')
+const config = require('./config/config')
 
 const app = express();
 
@@ -16,11 +17,13 @@ app.get('/', (req, res) =>{
   });
 })
 
-app.post('/register', (req, res) => {
-    res.send({
-        message : `Registrados ${req.body.email}`
-    });
-});
+const routes =  require('./routes/routes')(app)
+sequelize.sync()
+    .then(()=>{
 
-app.listen(process.env.PORT || 3000);
+        app.listen(config.port);
+        console.log(`server ${config.port}`);
+    })
+
+
 
